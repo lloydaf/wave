@@ -31,7 +31,7 @@ const SubHeadline = styled.p`
     margin: 1rem 0 1.5rem 0;
 
     @media (min-width: 48rem) {
-        max-width: 60rem;
+        max-width: 50rem;
     }
 `;
 

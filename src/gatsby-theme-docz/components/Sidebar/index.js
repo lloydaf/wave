@@ -37,7 +37,7 @@ const BoxSidebar = styled.div`
         opacity: 1;
         transition: none;
         will-change: none;
-        width: 19.5rem;
+        width: 25%;
         max-height: calc(100vh - 52px);
     }
 `;

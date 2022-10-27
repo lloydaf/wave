@@ -9,12 +9,27 @@ const GlobalStyles = createGlobalStyle`
     html, body {
         padding: 0;
         margin: 0;
+        overflow: hidden;
+    }
+    .container{
+        display: flex;
+    }
+    .scroll-css{
+        height: calc(100vh - 52px);
+        overflow: auto;
+    }
+    .main-container{
+        display: flex;
+    }
+    .contain-max{
+        max-width: 47rem;
+    }
+    .contain-min{
+        min-width: 50rem;
     }
 `;
 
 const LayoutContainer = styled.div`
-    margin-top: 52px;
-
     @media screen and (min-width: 48rem) {
         margin-left: 19.5rem;
     }
@@ -26,11 +41,12 @@ const MainBox = styled.div`
 `;
 
 const TableOfContentsWrapper = styled.div`
-    padding: 4rem 1rem 0 1rem;
-    position: sticky;
-    top: 52px;
+    padding: 2rem 1rem 0 1rem;
     display: none;
+    position: sticky;
+    position: -webkit-sticky;
     vertical-align: top;
+    top: 0;
 
     @media screen and (min-width: 60rem) {
         display: inline-block;
@@ -71,29 +87,39 @@ export const Layout = ({ children, doc }) => {
             <GlobalStyles />
             <MainBox>
                 <Header onOpen={() => setOpen(s => !s)} />
-                <Sidebar
-                    ref={nav}
-                    open={open}
-                    onFocus={() => setOpen(true)}
-                    onBlur={() => setOpen(false)}
-                    onClick={() => setOpen(false)}
-                />
-                <LayoutContainer>
-                    <TitleCard headline={cardHeadline} subHeadline={cardSubHeadline} />
-                    <MainContainer id="main" data-testid="main-container" style={{ maxWidth: '60rem' }}>
-                        {children}
-                    </MainContainer>
-                    {displayableHeadings.length > 1 && (
-                        <TableOfContentsWrapper>
-                            <TableOfContentsTitle>Table of contents</TableOfContentsTitle>
-                            {displayableHeadings.map(heading => (
-                                <SectionLink key={heading.slug} href={`#${heading.slug}`}>
-                                    {heading.value}
-                                </SectionLink>
-                            ))}
-                        </TableOfContentsWrapper>
-                    )}
-                </LayoutContainer>
+                <div className="container">
+                    <Sidebar
+                        style={{ flexBasis: '25%' }}
+                        ref={nav}
+                        open={open}
+                        onFocus={() => setOpen(true)}
+                        onBlur={() => setOpen(false)}
+                        onClick={() => setOpen(false)}
+                    />
+                    <LayoutContainer className={`${cardHeadline ? 'scroll-css' : ''}`}>
+                        <TitleCard headline={cardHeadline} subHeadline={cardSubHeadline} />
+                        <div className={`${!cardHeadline ? 'scroll-css main-container' : 'main-container'}`}>
+                            <MainContainer
+                                id="main"
+                                data-testid="main-container"
+                                style={{}}
+                                className={`${displayableHeadings.length > 1 ? 'contain-max' : 'contain-min'}`}
+                            >
+                                {children}
+                            </MainContainer>
+                            {displayableHeadings.length > 1 && (
+                                <TableOfContentsWrapper>
+                                    <TableOfContentsTitle>Table of contents</TableOfContentsTitle>
+                                    {displayableHeadings.map(heading => (
+                                        <SectionLink key={heading.slug} href={`#${heading.slug}`}>
+                                            {heading.value}
+                                        </SectionLink>
+                                    ))}
+                                </TableOfContentsWrapper>
+                            )}
+                        </div>
+                    </LayoutContainer>
+                </div>
             </MainBox>
         </div>
     );
