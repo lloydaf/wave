@@ -9,9 +9,11 @@ const HeaderWrapper = styled.div`
     background-color: #000f1f;
     height: 52px;
     clear: both;
-    position: fixed;
+    justify-content: space-between;
+    align-items: center;
     z-index: 1000;
     width: 100%;
+    display: flex;
 `;
 
 const MenuButton = styled(MenuIcon).attrs({ width: '28px', height: '28px' })`
@@ -56,11 +58,9 @@ const GithubLink = styled.a`
 `;
 
 const MenuRightSection = styled.div`
-    position: absolute;
-    top: 50%;
-    right: 1rem;
     transform: translateY(-50%);
     display: flex;
+    margin-top: 25px;
     align-items: center;
 `;
 
